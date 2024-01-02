@@ -1,2 +1,4 @@
 rootProject.name = 'redDB'
+include 'shared'
+include 'lib'
 
