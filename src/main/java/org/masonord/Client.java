@@ -6,42 +6,51 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Client implements ClientInterface{
-    private Socket clientSocket;
-    private PrintWriter out;
+public class Client implements Runnable{
+    private Socket client;
     private BufferedReader in;
+    private PrintWriter out;
 
     @Override
-    public void startConnection(String ip, int port) {
-        try {
-            clientSocket = new Socket(ip, port);
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        }catch(IOException exception) {
-            System.out.println(exception.getMessage());
+    public void run() {
+        try{
+            client = new Socket("127.0.0.1",6379);
+            out = new PrintWriter(client.getOutputStream(),true);
+            in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+
+            InputHandler inHandler = new InputHandler();
+            Thread t = new Thread(inHandler);
+            t.start();
+
+            String inMessage;
+            while ((inMessage = in.readLine()) != null){
+                System.out.println(inMessage);
+            }
+
+        }catch (IOException e){
+            throw new RuntimeException(e);
         }
     }
 
-    @Override
-    public String sendMessage(String msg) {
-        String resp = "";
-        try {
-            out.println(msg);
-            resp = in.readLine();
-        }catch(IOException exception) {
-            System.out.println(exception.getMessage());
+    class InputHandler implements Runnable{
+        @Override
+        public void run() {
+            try{
+                BufferedReader inReader = new BufferedReader(new InputStreamReader(System.in));
+                while (true){
+                    String message = inReader.readLine();
+                    if ("PING".equalsIgnoreCase(message)) {
+                        out.println("+PONG\r\n");
+                        out.flush();
+                    }
+                }
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
         }
-        return resp;
     }
-
-    @Override
-    public void stopConnection() {
-        try {
-            in.close();
-            out.close();
-            clientSocket.close();
-        }catch (IOException exception) {
-            System.out.println(exception.getMessage());
-        }
+    public static void main(String[] args) {
+        Client client = new Client();
+        client.run();
     }
 }

@@ -1,52 +1,37 @@
 package org.masonord;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class Server implements ServerInterface{
-    private ServerSocket serverSocket;
-    private Socket clientSocket;
-    private PrintWriter out;
-    private BufferedReader in;
+public class Server  {
+    private static final ExecutorService EXECUTOR_SERVICE = Executors.newFixedThreadPool(5);
 
-
-    @Override
-    public void start(int port) {
+    public static void main(String[] args) throws IOException {
+        System.out.println("Logs from your program will appear here!");
+        ServerSocket serverSocket = null;
+        Socket clientSocket = null;
+        int port = 6379;
         try {
             serverSocket = new ServerSocket(port);
-            clientSocket = serverSocket.accept();
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader((clientSocket.getInputStream())));
-            String greeting = in.readLine();
-
-            if ("hello server".equals(greeting))
-                out.println("hello client");
-            else
-                out.println("unrecognised greeting");
-
-        }catch (IOException exception) {
-            System.out.println(exception.getMessage());
+            serverSocket.setReuseAddress(true);
+            while (true) {
+                Socket accept = serverSocket.accept();
+                EXECUTOR_SERVICE.submit(new ClientHandler(accept));
+            }
+        } catch (IOException e) {
+            System.out.println("IOException: " + e.getMessage());
+        } finally {
+            try {
+                if (clientSocket != null) {
+                    clientSocket.close();
+                }
+            } catch (IOException e) {
+                System.out.println("IOException: " + e.getMessage());
+            }
         }
-    }
-
-    @Override
-    public void stop() {
-        try {
-            in.close();
-            out.close();
-            clientSocket.close();
-            serverSocket.close();
-        }catch(IOException exception){
-            System.out.println(exception.getMessage());
-        }
-    }
-
-    public static void main(String[] args) {
-        Server server = new Server();
-        server.start(8080);
     }
 }
+
