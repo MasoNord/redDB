@@ -1,66 +1,60 @@
 package org.masonord;
 
+import org.masonord.command.CommandInterface;
+import org.masonord.exception.InvalidCommand;
+import org.masonord.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.concurrent.*;
 
 
-public class ClientHandler implements Runnable {
+public class ClientHandler implements Callable<Object> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientHandler.class);
     private final Socket clientSocket;
+    private static final ExecutorService service = Executors.newSingleThreadExecutor();
 
     public ClientHandler(Socket clientSocket) {
         this.clientSocket = clientSocket;
     }
 
     @Override
-    public void run() {
-        try {
-            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            List<String> inputParams;
+    public Object call() throws Exception {
 
-            while ((inputParams = parseInput(bufferedReader)) != null) {
-                LOGGER.debug("inputParams: {}", inputParams);
-                RedisExecutor.execute(bufferedWriter, inputParams);
-            }
-        } catch (IOException e) {
-            LOGGER.error("create I/O stream error.", e);
-        }finally {
-            try {
-                if (clientSocket != null) {
-                    clientSocket.close();
+        try {
+            InputHandler in = new InputHandler(clientSocket.getInputStream());
+            OutputHandler out = new OutputHandler(clientSocket.getOutputStream());
+
+            while (in.hasNext()) {
+                try {
+                    CommandInterface<?> command = in.next();
+
+                    Response<?> response = command.execute();
+                    response.write(out);
+
+
+                }catch (InvalidCommand e) {
+                    out.write(e);
                 }
-            }catch (IOException e) {
-                LOGGER.error("close socket error", e);
             }
+            clientSocket.close();
+        }catch (Exception e) {
+            // TODO: logging
         }
+
+        return null;
     }
 
-    private List<String> parseInput(BufferedReader reader) throws IOException {
+    private Response<?> execute(CommandInterface<?> command) throws InvalidCommand {
         try {
-            String str = reader.readLine();
-            List<String> list = new ArrayList<>();
-
-            if (Objects.isNull(str)) {
-                return null;
+            return service.submit((Callable<Response<?>>) () -> command.execute()).get();
+        }catch(InterruptedException e) {
+            throw new InvalidCommand("Thread was interrupted by ", e);
+        }catch(ExecutionException e) {
+            if (e.getCause() != null && e.getCause() instanceof InvalidCommand) {
+                throw (InvalidCommand) e.getCause();
             }
-
-            int size = Integer.parseInt(str.substring(1));
-            for (int i = 0; i < size; i++) {
-                String paramStr = reader.readLine();
-                String param = reader.readLine();
-                list.add(param);
-            }
-
-            return list;
-        }catch (Exception e) {
-            LOGGER.warn("parse input failed", e);
-            return null;
+            throw new InvalidCommand("Execution exception", e);
         }
     }
 }
