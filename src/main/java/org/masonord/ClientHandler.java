@@ -29,7 +29,7 @@ public class ClientHandler implements Callable<Object> {
                 try {
                     CommandInterface<?> command = in.next();
 
-                    Response<?> response = command.execute();
+                    Response<?> response = execute(command);
                     response.write(out);
 
 
