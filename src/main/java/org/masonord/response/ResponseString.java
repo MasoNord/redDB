@@ -7,6 +7,10 @@ import java.io.IOException;
 public class ResponseString implements Response<String>{
     private String value;
 
+    public ResponseString() {
+
+    }
+
     public ResponseString(String value) {
         this.value = value;
     }

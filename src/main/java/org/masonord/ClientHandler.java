@@ -31,8 +31,6 @@ public class ClientHandler implements Callable<Object> {
 
                     Response<?> response = execute(command);
                     response.write(out);
-
-
                 }catch (InvalidCommand e) {
                     out.write(e);
                 }

@@ -10,12 +10,12 @@ public class CommandFactory {
         CommandInterface<?> command = null;
 
         switch (name) {
-//            case "GET":
-//                command = new GetCommand(args);
-//                break;
-//            case "SET":
-//                command = new SetCommand(name);
-//                break;
+            case "GET":
+                command = new GetCommand(args);
+                break;
+            case "SET":
+                command = new SetCommand(args);
+                break;
 //            case "ECHO":
 //                command = new EchoCommand(args);
 //                break;
