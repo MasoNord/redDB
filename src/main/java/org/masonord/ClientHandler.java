@@ -1,6 +1,7 @@
 package org.masonord;
 
 import org.masonord.command.CommandInterface;
+import org.masonord.command.QuitCommand;
 import org.masonord.exception.InvalidCommand;
 import org.masonord.response.Response;
 import org.slf4j.Logger;
@@ -28,6 +29,10 @@ public class ClientHandler implements Callable<Object> {
             while (in.hasNext()) {
                 try {
                     CommandInterface<?> command = in.next();
+
+                    if (command instanceof QuitCommand) {
+                        break;
+                    }
 
                     Response<?> response = execute(command);
                     response.write(out);

@@ -22,7 +22,7 @@ public class CommandFactory {
                 command = new PingCommand();
                 break;
             case "QUIT":
-                command = new QuitCommand();
+                command = new QuitCommand(args);
                 break;
             default:
                 throw new InvalidCommand("Cannot find command type");
