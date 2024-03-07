@@ -10,6 +10,10 @@ public class InMemoryDB implements Iterable<String>{
     public static final InMemoryDB INSTANCE = new InMemoryDB();
     private Map<String, Object> data = new HashMap<>();
 
+    public boolean containsKey(String key) {
+        return data.containsKey(key);
+    }
+
     public <T> void put(String key, T value) {
         data.put(key, value);
     }

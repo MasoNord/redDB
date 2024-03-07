@@ -58,8 +58,8 @@ public class OutputHandler {
     public void write(InvalidCommand invalidCommand) throws IOException {
         String message = invalidCommand.getMessage();
 
-        stream.write(Protocol.MINUS);
-        stream.write(Protocol.toBytes("ERR"));
+//        stream.write(Protocol.MINUS);
+        stream.write(Protocol.toBytes("-ERR "));
         if (!Objects.isNull(message)) {
             stream.write(Protocol.toBytes(message));
             stream.write('\r');

@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import java.net.Socket;
 import java.util.concurrent.*;
 
-
 public class ClientHandler implements Callable<Object> {
     private static final Logger LOGGER = LoggerFactory.getLogger(ClientHandler.class);
     private final Socket clientSocket;
@@ -20,7 +19,7 @@ public class ClientHandler implements Callable<Object> {
     }
 
     @Override
-    public Object call() throws Exception {
+    public Object call() {
 
         try {
             InputHandler in = new InputHandler(clientSocket.getInputStream());
@@ -42,7 +41,7 @@ public class ClientHandler implements Callable<Object> {
             }
             clientSocket.close();
         }catch (Exception e) {
-            // TODO: logging
+            LOGGER.debug("Some unknown problem: interrupting the connection");
         }
 
         return null;
@@ -50,7 +49,7 @@ public class ClientHandler implements Callable<Object> {
 
     private Response<?> execute(CommandInterface<?> command) throws InvalidCommand {
         try {
-            return service.submit((Callable<Response<?>>) () -> command.execute()).get();
+            return service.submit((Callable<Response<?>>) command::execute).get();
         }catch(InterruptedException e) {
             throw new InvalidCommand("Thread was interrupted by ", e);
         }catch(ExecutionException e) {

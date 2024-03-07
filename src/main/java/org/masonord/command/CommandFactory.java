@@ -6,30 +6,14 @@ public class CommandFactory {
     public static CommandFactory INSTANCE = new CommandFactory();
 
     public CommandInterface<?> createCommand(String name, String[] args) throws InvalidCommand{
-        CommandInterface<?> command = null;
-
-        switch (name) {
-            case "GET":
-                command = new GetCommand(args);
-                break;
-            case "SET":
-                command = new SetCommand(args);
-                break;
-            case "ECHO":
-                command = new EchoCommand(args);
-                break;
-            case "PING":
-                command = new PingCommand();
-                break;
-            case "QUIT":
-                command = new QuitCommand(args);
-                break;
-            default:
-                throw new InvalidCommand("Cannot find command type");
-
-
-        }
-
-        return command;
+        return switch (name) {
+            case "GET" -> new GetCommand(args);
+            case "SET" -> new SetCommand(args);
+            case "ECHO" -> new EchoCommand(args);
+            case "PING" -> new PingCommand();
+            case "QUIT" -> new QuitCommand(args);
+            case "DEL" -> new DelCommand(args);
+            default -> throw new InvalidCommand("Cannot find command type");
+        };
     }
 }
