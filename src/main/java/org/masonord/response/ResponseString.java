@@ -17,7 +17,7 @@ public class ResponseString implements Response<String>{
 
     @Override
     public String value() {
-        return value == null ? null : value.toString();
+        return value == null ? null : value;
     }
 
     @Override

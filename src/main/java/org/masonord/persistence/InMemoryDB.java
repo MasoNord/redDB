@@ -3,12 +3,17 @@ package org.masonord.persistence;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class InMemoryDB implements Iterable<String>{
     private InMemoryDB() {}
 
     public static final InMemoryDB INSTANCE = new InMemoryDB();
     private Map<String, Object> data = new HashMap<>();
+
+    public Set<String> getKeySet() {
+        return data.keySet();
+    }
 
     public boolean containsKey(String key) {
         return data.containsKey(key);
@@ -29,6 +34,7 @@ public class InMemoryDB implements Iterable<String>{
     public void clear() {
         data = new HashMap<>();
     }
+
 
     @Override
     public Iterator<String> iterator() {

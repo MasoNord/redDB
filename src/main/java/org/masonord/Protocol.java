@@ -14,10 +14,6 @@ public class Protocol {
     public static final byte MINUS = '-';
     public static final byte COLON = ':';
     public static final byte ASTERISK = '*';
-    public static final byte GREATE_THEN = '>';
-    public static final byte HASH = '#';
-    public static final byte TILDE = '~';
-    public static final byte UNDERSCORE = '_';
 
 
     public static byte[] toBytes(int number) {

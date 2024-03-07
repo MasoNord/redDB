@@ -19,7 +19,7 @@ public class ClientHandler implements Callable<Object> {
     }
 
     @Override
-    public Object call() {
+    public Object call() throws InvalidCommand {
 
         try {
             InputHandler in = new InputHandler(clientSocket.getInputStream());
@@ -41,7 +41,8 @@ public class ClientHandler implements Callable<Object> {
             }
             clientSocket.close();
         }catch (Exception e) {
-            LOGGER.debug("Some unknown problem: interrupting the connection");
+            LOGGER.error("Some unknown problem: interrupting the connection");
+            throw new InvalidCommand("Execution exception", e);
         }
 
         return null;
