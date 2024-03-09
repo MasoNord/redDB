@@ -2,10 +2,11 @@
 RedDb is an implementation of REDIS in Java programming language.
 
 # Technologies
-- Java
+- Java 21
 - Gradle
 - Docker
-- SLF4J
+- Junit
+- logback
 
 # Build
 
@@ -14,18 +15,9 @@ RedDb is an implementation of REDIS in Java programming language.
 # Docker
 
 # To Do List
-- [ ]  Java API Client
-- [ ]  Operations
-    - GET
-    - SET
-    - REMOVE
-    - KEYS
-    - EXISTS
-- [ ]  Connections
-    - ECHO
-    - PING
-    - QUIT
-- [ ]  Server
+- [ ] Java API Client
+- [ ] RDB file
+- [ ] Server
     - INFO
     - TIME
 - [ ]  Performance Tests
