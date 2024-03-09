@@ -14,6 +14,7 @@ public class CommandFactory {
             case "QUIT" -> new QuitCommand(args);
             case "DEL" -> new DelCommand(args);
             case "KEYS" -> new KeysCommand(args);
+            case "EXISTS" -> new ExistsCommand(args);
             default -> throw new InvalidCommand("Cannot find command type");
         };
     }
