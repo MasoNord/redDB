@@ -5,8 +5,11 @@ import org.masonord.OutputHandler;
 import java.io.IOException;
 
 public class ResponseInteger implements Response<Integer>{
+    private Integer value;
 
-    private final Integer value;
+    public ResponseInteger() {
+
+    }
 
     public ResponseInteger(Integer value) {
         this.value = value;
@@ -14,7 +17,7 @@ public class ResponseInteger implements Response<Integer>{
 
     @Override
     public Integer value() {
-        return null;
+        return value;
     }
 
     @Override

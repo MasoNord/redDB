@@ -42,7 +42,7 @@ public class GetCommandTest {
         command = new GetCommand(ONE_ARG);
         Response<?> response = command.execute();
 
-        Assertions.assertEquals(response.value(), "Hello");
+        Assertions.assertEquals("Hello", response.value());
     }
 
     @Test

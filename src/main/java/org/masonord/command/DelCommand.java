@@ -10,7 +10,7 @@ public class DelCommand implements CommandInterface<Integer> {
 
     public DelCommand(String[] args) throws InvalidCommand {
         if (args.length == 0) {
-            throw new InvalidCommand("Not enough arguments");
+            throw new InvalidCommand("Not enough args");
         }
         keys = new String[args.length];
         System.arraycopy(args, 0, keys, 0, keys.length);
