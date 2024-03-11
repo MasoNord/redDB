@@ -11,7 +11,7 @@ public class ExistsCommand implements CommandInterface<Integer> {
 
     public ExistsCommand(String[] args) throws InvalidCommand {
         if (args.length < 1) {
-            throw new InvalidCommand("Not enough arguments");
+            throw new InvalidCommand("Not enough args");
         }
         keys = new String[args.length];
         System.arraycopy(args, 0, keys, 0, keys.length);

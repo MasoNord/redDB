@@ -16,7 +16,6 @@ RedDb is an implementation of REDIS in Java programming language.
 
 # To Do List
 - [ ] Java API Client
-- [ ] RDB file
 - [ ] Server
     - INFO
     - TIME
