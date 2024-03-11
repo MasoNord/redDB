@@ -10,7 +10,7 @@ public class GetCommand implements CommandInterface<String> {
 
     public GetCommand(String[] args) throws InvalidCommand {
         if (args.length != 1) {
-            throw new InvalidCommand("Invalid number of arguments supplied");
+            throw new InvalidCommand("Not enough args");
         }
 
         key = args[0];
