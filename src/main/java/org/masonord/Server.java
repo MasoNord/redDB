@@ -3,13 +3,15 @@ package org.masonord;
 import org.masonord.exception.InternalServerError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
+
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server  {
-    private static final String CONFIG = "application.properties";
     private static final int PORT = 6379;
     private static final int POOL = 10;
 
@@ -35,10 +37,9 @@ public class Server  {
                 Socket clientSocket = serverSocket.accept();
                 ClientHandler client = new ClientHandler(clientSocket);
                 service.submit(client);
-
             }
         }catch (Throwable e) {
-            LOGGER.error("Caught exception during runtime. Stopping server...");
+            LOGGER.error("Caught exception during runtime: " + e.getMessage());
             throw new InternalServerError(e.getMessage(), e);
         }
     }

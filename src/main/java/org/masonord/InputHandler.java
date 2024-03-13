@@ -3,6 +3,8 @@ package org.masonord;
 import org.masonord.command.CommandFactory;
 import org.masonord.command.CommandInterface;
 import org.masonord.exception.InvalidCommand;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -10,7 +12,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 public class InputHandler {
-
+    public static final Logger LOGGER = LoggerFactory.getLogger(InputHandler.class);
     private final BufferedInputStream stream;
 
     public InputHandler(InputStream stream) {
@@ -76,6 +78,7 @@ public class InputHandler {
 
     private void check(byte var) throws IOException {
         if (stream.read() != var) {
+            LOGGER.error("Invalid argument supplied");
             throw new RuntimeException("Invalid argument supplied");
         }
     }

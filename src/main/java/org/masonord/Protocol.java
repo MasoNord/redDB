@@ -1,8 +1,5 @@
 package org.masonord;
 
-import org.masonord.exception.InternalServerError;
-
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 
 public class Protocol {
@@ -23,5 +20,4 @@ public class Protocol {
     public static byte[] toBytes(String str) {
         return str.getBytes(StandardCharsets.UTF_8);
     }
-
 }

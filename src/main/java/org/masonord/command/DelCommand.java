@@ -4,12 +4,17 @@ import org.masonord.exception.InvalidCommand;
 import org.masonord.persistence.InMemoryDB;
 import org.masonord.response.Response;
 import org.masonord.response.ResponseInteger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DelCommand implements CommandInterface<Integer> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DelCommand.class);
+
     private final String[] keys;
 
     public DelCommand(String[] args) throws InvalidCommand {
         if (args.length == 0) {
+            LOGGER.error("Invalid number of arguments: " + args.length + " provide at least one");
             throw new InvalidCommand("Not enough args");
         }
         keys = new String[args.length];
@@ -29,6 +34,8 @@ public class DelCommand implements CommandInterface<Integer> {
             }
         }
 
+
+        LOGGER.info("Performing DEL command...");
         return new ResponseInteger(response);
     }
 }

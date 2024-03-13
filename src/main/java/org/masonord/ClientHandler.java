@@ -41,7 +41,7 @@ public class ClientHandler implements Callable<Object> {
             }
             clientSocket.close();
         }catch (Exception e) {
-            LOGGER.error("Some unknown problem: interrupting the connection");
+            LOGGER.error("Connection is closed: " + e.getMessage());
             throw new InvalidCommand("Execution exception", e);
         }
 
@@ -52,11 +52,14 @@ public class ClientHandler implements Callable<Object> {
         try {
             return service.submit((Callable<Response<?>>) command::execute).get();
         }catch(InterruptedException e) {
+            LOGGER.error("Thread was interrupted by: " + e.getMessage());
             throw new InvalidCommand("Thread was interrupted by ", e);
         }catch(ExecutionException e) {
             if (e.getCause() != null && e.getCause() instanceof InvalidCommand) {
+                LOGGER.error("Thread was interrupted by: " + e.getMessage());
                 throw (InvalidCommand) e.getCause();
             }
+            LOGGER.error("Execution exception: " + e.getMessage());
             throw new InvalidCommand("Execution exception", e);
         }
     }
