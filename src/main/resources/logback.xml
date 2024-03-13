@@ -38,6 +38,21 @@
         </triggeringPolicy>
     </appender>
 
+    <appender name="appErr" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/application-error.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>./logs/application-aop-%i.log</fileNamePattern>
+            <minIndex>1</minIndex>
+            <maxIndex>10</maxIndex>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>10MB</maxFileSize>
+        </triggeringPolicy>
+    </appender>
+
     <logger name="org.masonord" level="DEBUG">
         <appender-ref ref="applicationLog" />
         <appender-ref ref="console" />
@@ -46,6 +61,10 @@
     <logger name="org.masonord" level="INFO">
         <appender-ref ref="aopLog" />
         <appender-ref ref="console" />
+    </logger>
+
+    <logger name="org.masonord" level="ERROR">
+        <appender-ref ref="appErr" />
     </logger>
 
     <root level="info">
