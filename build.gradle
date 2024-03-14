@@ -8,9 +8,15 @@ version = '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
+
 jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
-        attributes("Name": "org.masonord.Server")
+        attributes 'Main-Class': 'org.masonord.Server'
+    }
+
+    from {
+        configurations.runtimeClasspath.collect {it.isDirectory() ? it : zipTree(it)}
     }
 }
 

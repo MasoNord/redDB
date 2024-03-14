@@ -14,7 +14,7 @@ public class DelCommand implements CommandInterface<Integer> {
 
     public DelCommand(String[] args) throws InvalidCommand {
         if (args.length == 0) {
-            LOGGER.error("Invalid number of arguments: " + args.length + " provide at least one");
+            LOGGER.error("Invalid number of arguments: " + args.length + ". Provide at least one");
             throw new InvalidCommand("Not enough args");
         }
         keys = new String[args.length];

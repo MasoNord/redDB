@@ -13,7 +13,7 @@ public class GetCommand implements CommandInterface<String> {
 
     public GetCommand(String[] args) throws InvalidCommand {
         if (args.length != 1) {
-            LOGGER.error("Invalid number of arguments: " + args.length + " provide only one");
+            LOGGER.error("Invalid number of arguments: " + args.length + ". Provide only one");
             throw new InvalidCommand("Not enough args");
         }
 

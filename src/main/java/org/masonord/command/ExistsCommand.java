@@ -13,7 +13,7 @@ public class ExistsCommand implements CommandInterface<Integer> {
 
     public ExistsCommand(String[] args) throws InvalidCommand {
         if (args.length < 1) {
-            LOGGER.error("Invalid number of arguments: " + args.length + " provide at least one");
+            LOGGER.error("Invalid number of arguments: " + args.length + ". Provide at least one");
             throw new InvalidCommand("Not enough args");
         }
         keys = new String[args.length];

@@ -15,6 +15,7 @@ public class ClientHandler implements Callable<Object> {
     private static final ExecutorService service = Executors.newSingleThreadExecutor();
 
     public ClientHandler(Socket clientSocket) {
+        LOGGER.info("New client connected to the server");
         this.clientSocket = clientSocket;
     }
 

@@ -13,11 +13,3 @@ RedDb is an implementation of REDIS in Java programming language.
 # Usage
 
 # Docker
-
-# To Do List
-- [ ] Java API Client
-- [ ] Server
-    - INFO
-    - TIME
-- [ ]  Performance Tests
-- [ ]  Unit Tests

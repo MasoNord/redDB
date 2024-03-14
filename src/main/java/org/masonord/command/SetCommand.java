@@ -14,7 +14,7 @@ public class SetCommand implements CommandInterface<String> {
 
     public SetCommand(String[] args)throws InvalidCommand {
         if (args.length != 2) {
-            LOGGER.error("Invalid number of arguments: " + args.length + " provide only two");
+            LOGGER.error("Invalid number of arguments: " + args.length + ". Provide only two");
             throw new InvalidCommand("Not enough args");
         }
 
