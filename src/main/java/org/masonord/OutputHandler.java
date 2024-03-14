@@ -2,7 +2,6 @@ package org.masonord;
 
 import org.masonord.exception.InvalidCommand;
 import org.masonord.response.OkResponse;
-
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
