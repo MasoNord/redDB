@@ -10,7 +10,7 @@ import org.masonord.response.Response;
 public class ExistsCommandTest {
 
     private final String[] NO_ARGS = {};
-    private String[] TWO_ARGS = new String[] {"Greeting", "Hello"};
+    private final String[] TWO_ARGS = new String[] {"Greeting", "Hello"};
 
     @Test
     public void should_throw_exception_when_provided_no_args() {
@@ -29,7 +29,7 @@ public class ExistsCommandTest {
     }
 
     @Test
-    public void should_return_count_fro_not_found_key() throws InvalidCommand {
+    public void should_return_zero_for_not_found_key() throws InvalidCommand {
         CommandInterface<?> command = new ExistsCommand(new String[] {TWO_ARGS[0]});
         Response<?> response = command.execute();
 
